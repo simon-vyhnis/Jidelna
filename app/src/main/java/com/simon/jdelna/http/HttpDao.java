@@ -1,4 +1,4 @@
-package com.simon.jdelna;
+package com.simon.jdelna.http;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
@@ -13,6 +13,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.converter.scalars.ScalarsConverterFactory;
 
 public class HttpDao {
 
@@ -22,7 +23,6 @@ public class HttpDao {
     private HttpDao(){
         retrofit = new Retrofit.Builder()
                 .baseUrl("https://www.jidelna.cz/")
-                .client(new OkHttpClient.Builder().connectTimeout(2, TimeUnit.SECONDS).build())
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
     }
@@ -59,6 +59,26 @@ public class HttpDao {
             }
         });
         return menus;
+    }
+
+    public void masterLogin(String email, String password){
+        Retrofit retrofitString = new Retrofit.Builder()
+                .baseUrl("https://www.jidelna.cz/")
+                .addConverterFactory(ScalarsConverterFactory.create())
+                .build();
+        JidelnaAPI api = retrofitString.create(JidelnaAPI.class);
+        Call<String> call = api.masterLogin(email, password);
+        call.enqueue(new Callback<String>() {
+            @Override
+            public void onResponse(Call<String> call, Response<String> response) {
+                System.out.println(response.body());
+            }
+
+            @Override
+            public void onFailure(Call<String> call, Throwable t) {
+
+            }
+        });
     }
 }
 

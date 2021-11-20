@@ -1,4 +1,4 @@
-package com.simon.jdelna;
+package com.simon.jdelna.http;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -9,6 +9,14 @@ public class DailyMenu {
     String date;
     @SerializedName("den")
     Day day;
+
+    public String getDate() {
+        return date;
+    }
+
+    public Day getDay() {
+        return day;
+    }
 
     public class Day{
         @SerializedName("castiDne")
