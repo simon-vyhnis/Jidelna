@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Jídelna</string>
+    <string name="missing_info">Vyplňte přihlašovací údaje</string>
+    <string name="email">Email</string>
+    <string name="password">Heslo</string>
+    <string name="loginHeading">Přihlášení</string>
+    <string name="loginButton">Přihlásit</string>
+</resources>
