@@ -38,4 +38,7 @@ public class MainActivity extends AppCompatActivity {
             text.setText(textBuilder.toString());
         });
     }
+
+    @Override
+    public void onBackPressed() {}
 }
