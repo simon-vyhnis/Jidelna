@@ -22,4 +22,8 @@ public class User {
     public void setUserId(int userId) {
         this.userId = userId;
     }
+
+    public User(int userId) {
+        this.userId = userId;
+    }
 }

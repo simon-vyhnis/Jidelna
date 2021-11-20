@@ -6,6 +6,7 @@ import retrofit2.Call;
 import retrofit2.http.Field;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 
@@ -21,5 +22,6 @@ public interface JidelnaAPI {
     Call<String> masterLogin(@Field("login") String email, @Field("heslo") String password);
 
     @GET("/rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/uzivatel/{userId}/info")
-    Call<User> getUserInfo(@Path("userId") int userId);
+    Call<User> getUserInfo(@Path("userId") int userId, @Header("Cookie") String cookie);
+
 }
