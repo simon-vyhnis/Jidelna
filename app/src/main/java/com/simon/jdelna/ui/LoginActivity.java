@@ -1,15 +1,16 @@
-package com.simon.jdelna;
+package com.simon.jdelna.ui;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.PersistableBundle;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.simon.jdelna.R;
 
 public class LoginActivity extends AppCompatActivity {
     @Override
@@ -30,7 +31,7 @@ public class LoginActivity extends AppCompatActivity {
                 editor.putString("email", email.getText().toString());
                 editor.putString("password", password.getText().toString());
                 editor.commit();
-                Intent intent = new Intent(this, MainActivity.class);
+                Intent intent = new Intent(this, ChooseUserActivity.class);
                 startActivity(intent);
             }
         });

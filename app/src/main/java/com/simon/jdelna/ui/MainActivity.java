@@ -1,4 +1,4 @@
-package com.simon.jdelna;
+package com.simon.jdelna.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,11 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.widget.TextView;
 
+import com.simon.jdelna.R;
 import com.simon.jdelna.http.DailyMenu;
 import com.simon.jdelna.http.HttpDao;
 import com.simon.jdelna.http.User;
+import com.simon.jdelna.ui.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFERENCES_FILE = "com.simon.jidelna.LOGIN_INFO";
