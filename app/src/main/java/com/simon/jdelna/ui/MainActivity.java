@@ -1,24 +1,23 @@
 package com.simon.jdelna.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.view.View;
 import android.widget.Toast;
 
 import com.simon.jdelna.R;
-import com.simon.jdelna.http.DailyMenu;
 import com.simon.jdelna.http.HttpDao;
-import com.simon.jdelna.http.User;
-import com.simon.jdelna.ui.LoginActivity;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFERENCES_FILE = "com.simon.jidelna.LOGIN_INFO";
-    TextView text;
+    RecyclerView days;
     HttpDao http;
     SharedPreferences preferences;
 
@@ -33,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
             startActivity(intent);
         }
 
-        text = findViewById(R.id.text);
+        days = findViewById(R.id.food_list);
         http = HttpDao.getInstance();
 
         http.login(preferences.getString("email", "err"), preferences.getString("password", "err")).observe(this, response->{
@@ -49,17 +48,10 @@ public class MainActivity extends AppCompatActivity {
 
     private void loadMenu(){
         http.getMenus().observe(this, dailyMenus -> {
-            StringBuilder textBuilder = new StringBuilder();
-            for(DailyMenu menu : dailyMenus){
-                textBuilder.append(menu.getDate()).append("\n");
-                for(DailyMenu.Food food : menu.getFoods()){
-                    textBuilder.append(" ").append(food.getName()).append("\n");
-                    for(DailyMenu.Food.Course course : food.getCourses()){
-                        textBuilder.append(" ").append(course.getTitle()).append(": ").append(course.getContent()).append("\n");
-                    }
-                }
-            }
-            text.setText(textBuilder.toString());
+            findViewById(R.id.loading).setVisibility(View.GONE);
+            DaysViewAdapter adapter = new DaysViewAdapter(dailyMenus, this);
+            days.setAdapter(adapter);
+            days.setLayoutManager(new LinearLayoutManager(this));
         });
     }
 

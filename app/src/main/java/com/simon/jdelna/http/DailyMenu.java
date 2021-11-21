@@ -22,50 +22,65 @@ public class DailyMenu {
         @SerializedName("castiDne")
         List<DayPart> dayParts;
 
+        public List<DayPart> getDayParts() {
+            return dayParts;
+        }
     }
 
     public class DayPart{
         @SerializedName("nazev")
-        String name;
+        String title;
         @SerializedName("menu")
         List<Food> foods;
+
+        public String getTitle() {
+            return title;
+        }
 
         public List<Food> getFoods() {
             return foods;
         }
-    }
-
-    public class Food{
-        @SerializedName("chody")
-        List<Course> courses;
-        @SerializedName("nazev")
-        String name;
-
-        public class Course{
+        public class Food{
+            @SerializedName("chody")
+            List<Course> courses;
             @SerializedName("nazev")
-            String title;
-            @SerializedName("jidlo")
-            String content;
+            String name;
 
-            public String getTitle() {
-                return title;
+            public class Course{
+                @SerializedName("nazev")
+                String title;
+                @SerializedName("jidlo")
+                String content;
+
+                public String getTitle() {
+                    return title;
+                }
+
+                public String getContent() {
+                    return content;
+                }
             }
 
-            public String getContent() {
-                return content;
+            public List<Course> getCourses() {
+                return courses;
+            }
+
+            public String getName() {
+                return name;
+            }
+            public String getContent(){
+                StringBuilder builder = new StringBuilder();
+                for (Course course : courses) {
+                    builder.append(course.title).append(": ").append(course.content).append(", ");
+                }
+                return builder.toString();
             }
         }
 
-        public List<Course> getCourses() {
-            return courses;
-        }
-
-        public String getName() {
-            return name;
-        }
     }
 
-    public List<Food> getFoods(){
+
+    public List<DayPart.Food> getFoods(){
         if(day.dayParts.size()>=1) {
             return day.dayParts.get(0).getFoods();
         }
