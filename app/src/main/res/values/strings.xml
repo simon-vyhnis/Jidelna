@@ -5,4 +5,6 @@
     <string name="password">Heslo</string>
     <string name="loginHeading">Přihlášení</string>
     <string name="loginButton">Přihlásit</string>
+    <string name="switch_user">Změnit uživatele</string>
+    <string name="logout">Odhlásit se</string>
 </resources>
