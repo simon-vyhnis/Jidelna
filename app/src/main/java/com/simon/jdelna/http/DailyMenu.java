@@ -73,6 +73,7 @@ public class DailyMenu {
                 for (Course course : courses) {
                     builder.append(course.title).append(": ").append(course.content).append(", ");
                 }
+                builder.deleteCharAt(builder.length()-2);
                 return builder.toString();
             }
         }
