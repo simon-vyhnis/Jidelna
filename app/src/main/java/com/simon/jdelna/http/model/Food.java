@@ -1,7 +1,6 @@
 package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.simon.jdelna.http.DailyMenu;
 
 import java.util.List;
 
@@ -11,6 +10,7 @@ public class Food {
     @SerializedName("nazev")
     String name;
     int id;
+    private String content;
 
     public List<Course> getCourses() {
         return courses;
@@ -20,12 +20,15 @@ public class Food {
         return name;
     }
     public String getContent(){
-        StringBuilder builder = new StringBuilder();
-        for (Course course : courses) {
-            builder.append(course.getTitle()).append(": ").append(course.getContent()).append(", ");
+        if(content == null) {
+            StringBuilder builder = new StringBuilder();
+            for (Course course : courses) {
+                builder.append(course.getTitle()).append(": ").append(course.getContent()).append(", ");
+            }
+            builder.deleteCharAt(builder.length() - 2);
+            content =  builder.toString();
         }
-        builder.deleteCharAt(builder.length()-2);
-        return builder.toString();
+        return content;
     }
 
     public int getId() {

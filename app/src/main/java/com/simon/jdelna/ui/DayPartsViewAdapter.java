@@ -38,9 +38,10 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
 
     @Override
     public void onBindViewHolder(@NonNull DayPartsViewAdapter.ViewHolder holder, int position) {
+        DayPart current = dayParts.get(position);
         TextView title = holder.itemView.findViewById(R.id.title);
-        title.setText(dayParts.get(position).getTitle());
-        FoodsViewAdapter adapter = new FoodsViewAdapter(dayParts.get(position), activity);
+        title.setText(current.getTitle());
+        FoodsViewAdapter adapter = new FoodsViewAdapter(current, activity);
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.foods);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));

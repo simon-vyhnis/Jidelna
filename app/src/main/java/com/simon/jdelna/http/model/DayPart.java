@@ -1,7 +1,6 @@
 package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
-import com.simon.jdelna.http.DailyMenu;
 
 import java.util.List;
 import java.util.Map;

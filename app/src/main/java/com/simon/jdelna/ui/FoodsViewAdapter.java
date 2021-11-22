@@ -1,6 +1,9 @@
 package com.simon.jdelna.ui;
 
+import static java.lang.System.currentTimeMillis;
+
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +13,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
-import com.simon.jdelna.http.DailyMenu;
 import com.simon.jdelna.http.model.DayPart;
 import com.simon.jdelna.http.model.Food;
 
@@ -42,15 +44,20 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
 
     @Override
     public void onBindViewHolder(@NonNull FoodsViewAdapter.ViewHolder holder, int position) {
+        Food current = foods.get(position);
         TextView title = holder.itemView.findViewById(R.id.title);
-        title.setText(foods.get(position).getName());
+        title.setText(current.getName());
         TextView content = holder.itemView.findViewById(R.id.content);
-        content.setText(foods.get(position).getContent());
-        if(dayPart.getOrders() == null) {
-            holder.itemView.setBackgroundColor(Color.parseColor("#FF0000"));
+        content.setText(current.getContent());
+
+        long millis = System.currentTimeMillis();
+        if(dayPart.getOrders().get(activity.getUserId()+"").foodId == foods.get(position).getId()){
+            holder.itemView.setBackgroundColor(Color.parseColor("#b8ffc8"));
         }
+        Log.d("FoodViewAdapter","millis: "+(currentTimeMillis()-millis));
         //TODO: create onClick for selecting here
-        //TODO: color the layout
+        //POST https://www.jidelna.cz/rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/zarizeni/177/objednavky
+        //[{"idUzivatele":"2559062","idMenu":"12391","den":"2021-12-02","stav":"Prihlaseno","mnozstvi":1}]
     }
 
     @Override

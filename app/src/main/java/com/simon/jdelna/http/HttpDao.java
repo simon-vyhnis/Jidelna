@@ -10,6 +10,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.reflect.TypeToken;
 import com.simon.jdelna.http.model.DayWrap;
+import com.simon.jdelna.http.model.Order;
 
 import java.io.EOFException;
 import java.io.IOException;
@@ -22,6 +23,8 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import okhttp3.OkHttpClient;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -36,8 +39,18 @@ public class HttpDao {
     private String cookie;
     private String eatery = "";
 
-    private HttpDao(){
+    private HttpDao(){/*
+        Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
+        Gson gson =
+                new GsonBuilder()
+                        .registerTypeAdapter(Content.class, new MyDeserializer<Content>())
+                        .create();*/
+        HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
+        interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
+        OkHttpClient client = new OkHttpClient.Builder()
+                .addInterceptor(interceptor).build();
         retrofit = new Retrofit.Builder()
+                .client(client)
                 .baseUrl("https://www.jidelna.cz/")
                 .addConverterFactory(GsonConverterFactory.create())
                 .build();
@@ -56,13 +69,13 @@ public class HttpDao {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Call<List<DayWrap>> call = api.getDayWraps(eatery,
                 dateFormat.format(System.currentTimeMillis()),
-                dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000));
+                dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000),
+                cookie);
         System.out.println(call.request().url().toString());
         call.enqueue(new Callback<List<DayWrap>>() {
             @Override
             public void onResponse(Call<List<DayWrap>> call, Response<List<DayWrap>> response) {
                 if(response.isSuccessful()){
-                    Log.i("HTTP", cookie);
                     menus.postValue(response.body());
                 }else{
                     try {

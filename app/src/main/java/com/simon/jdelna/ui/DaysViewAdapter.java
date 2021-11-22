@@ -10,6 +10,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
+import com.simon.jdelna.http.model.Day;
 import com.simon.jdelna.http.model.DayWrap;
 
 import java.util.List;
@@ -38,11 +39,10 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull DaysViewAdapter.ViewHolder holder, int position) {
+        DayWrap current = days.get(position);
         TextView date = holder.itemView.findViewById(R.id.date);
-        if(days.get(position).getDate() != null) {
-            date.setText(days.get(position).getDate());
-        }
-        DayPartsViewAdapter adapter = new DayPartsViewAdapter(days.get(position).getDay().getDayParts(), activity);
+        date.setText(current.getDate());
+        DayPartsViewAdapter adapter = new DayPartsViewAdapter(current.getDay().getDayParts(), activity);
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.day_parts);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
