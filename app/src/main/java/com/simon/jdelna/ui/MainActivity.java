@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     RecyclerView days;
     HttpDao http;
     SharedPreferences preferences;
+    private int userId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +32,7 @@ public class MainActivity extends AppCompatActivity {
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
+        userId = preferences.getInt("userid",0);
 
         days = findViewById(R.id.food_list);
         http = HttpDao.getInstance();
@@ -47,9 +49,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMenu(){
-        http.getMenus().observe(this, dailyMenus -> {
+        http.getMenus().observe(this, dayWraps -> {
             findViewById(R.id.loading).setVisibility(View.GONE);
-            DaysViewAdapter adapter = new DaysViewAdapter(dailyMenus, this);
+            DaysViewAdapter adapter = new DaysViewAdapter(dayWraps, this);
             days.setAdapter(adapter);
             days.setLayoutManager(new LinearLayoutManager(this));
         });
@@ -76,4 +78,8 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {}
+
+    public int getUserId(){
+        return userId;
+    }
 }

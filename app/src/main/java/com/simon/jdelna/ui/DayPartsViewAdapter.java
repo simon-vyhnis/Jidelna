@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
-import com.simon.jdelna.http.DailyMenu;
+import com.simon.jdelna.http.model.DayPart;
 
 import java.util.List;
 
 public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapter.ViewHolder>{
-    List<DailyMenu.DayPart> dayParts;
+    List<DayPart> dayParts;
     private MainActivity activity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -24,7 +24,7 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
         }
     }
 
-    public DayPartsViewAdapter(List<DailyMenu.DayPart> dayParts, MainActivity activity){
+    public DayPartsViewAdapter(List<DayPart> dayParts, MainActivity activity){
         this.dayParts = dayParts;
         this.activity = activity;
     }
@@ -40,7 +40,7 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
     public void onBindViewHolder(@NonNull DayPartsViewAdapter.ViewHolder holder, int position) {
         TextView title = holder.itemView.findViewById(R.id.title);
         title.setText(dayParts.get(position).getTitle());
-        FoodsViewAdapter adapter = new FoodsViewAdapter(dayParts.get(position).getFoods(), activity);
+        FoodsViewAdapter adapter = new FoodsViewAdapter(dayParts.get(position), activity);
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.foods);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));

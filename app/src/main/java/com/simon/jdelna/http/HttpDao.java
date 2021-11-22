@@ -1,15 +1,23 @@
 package com.simon.jdelna.http;
 
+import android.util.Log;
 import android.widget.ArrayAdapter;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
+import com.simon.jdelna.http.model.DayWrap;
+
 import java.io.EOFException;
 import java.io.IOException;
+import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -42,19 +50,19 @@ public class HttpDao {
         return instance;
     }
 
-    private final MutableLiveData<List<DailyMenu>> menus = new MutableLiveData<>();
-    public LiveData<List<DailyMenu>> getMenus(){
+    private final MutableLiveData<List<DayWrap>> menus = new MutableLiveData<>();
+    public LiveData<List<DayWrap>> getMenus(){
         JidelnaAPI api = retrofit.create(JidelnaAPI.class);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-mm-dd");
-        Call<List<DailyMenu>> call = api.getDailyMenus(eatery,
-                "2021-11-21","2022-11-21");
-        /*dateFormat.format(System.currentTimeMillis()),
-                dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000)*/
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Call<List<DayWrap>> call = api.getDayWraps(eatery,
+                dateFormat.format(System.currentTimeMillis()),
+                dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000));
         System.out.println(call.request().url().toString());
-        call.enqueue(new Callback<List<DailyMenu>>() {
+        call.enqueue(new Callback<List<DayWrap>>() {
             @Override
-            public void onResponse(Call<List<DailyMenu>> call, Response<List<DailyMenu>> response) {
+            public void onResponse(Call<List<DayWrap>> call, Response<List<DayWrap>> response) {
                 if(response.isSuccessful()){
+                    Log.i("HTTP", cookie);
                     menus.postValue(response.body());
                 }else{
                     try {
@@ -66,7 +74,7 @@ public class HttpDao {
             }
 
             @Override
-            public void onFailure(Call<List<DailyMenu>> call, Throwable t) {
+            public void onFailure(Call<List<DayWrap>> call, Throwable t) {
                 t.printStackTrace();
             }
         });

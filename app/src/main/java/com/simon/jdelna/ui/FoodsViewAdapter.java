@@ -1,5 +1,6 @@
 package com.simon.jdelna.ui;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,12 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
 import com.simon.jdelna.http.DailyMenu;
+import com.simon.jdelna.http.model.DayPart;
+import com.simon.jdelna.http.model.Food;
 
 import java.util.List;
 
 public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.ViewHolder>{
-    List<DailyMenu.DayPart.Food> foods;
+    List<Food> foods;
     MainActivity activity;
+    DayPart dayPart;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(View view) {
@@ -23,9 +27,10 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         }
     }
 
-    public FoodsViewAdapter(List<DailyMenu.DayPart.Food> foods, MainActivity activity){
-        this.foods = foods;
+    public FoodsViewAdapter(DayPart dayPart, MainActivity activity){
+        this.foods = dayPart.getFoods();
         this.activity = activity;
+        this.dayPart = dayPart;
     }
 
     @NonNull
@@ -41,7 +46,9 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         title.setText(foods.get(position).getName());
         TextView content = holder.itemView.findViewById(R.id.content);
         content.setText(foods.get(position).getContent());
-        System.out.println("Food added, title: "+foods.get(position).getName());
+        if(dayPart.getOrders() == null) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#FF0000"));
+        }
         //TODO: create onClick for selecting here
         //TODO: color the layout
     }

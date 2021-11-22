@@ -10,12 +10,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
-import com.simon.jdelna.http.DailyMenu;
+import com.simon.jdelna.http.model.DayWrap;
 
 import java.util.List;
 
 public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHolder>{
-    List<DailyMenu> days;
+    List<DayWrap> days;
     MainActivity activity;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
@@ -24,7 +24,7 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
         }
     }
 
-    public DaysViewAdapter(List<DailyMenu> days, MainActivity activity){
+    public DaysViewAdapter(List<DayWrap> days, MainActivity activity){
         this.days = days;
         this.activity = activity;
     }
