@@ -50,11 +50,9 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         TextView content = holder.itemView.findViewById(R.id.content);
         content.setText(current.getContent());
 
-        long millis = System.currentTimeMillis();
         if(dayPart.getOrders().get(activity.getUserId()+"").foodId == foods.get(position).getId()){
             holder.itemView.setBackgroundColor(Color.parseColor("#b8ffc8"));
         }
-        Log.d("FoodViewAdapter","millis: "+(currentTimeMillis()-millis));
         //TODO: create onClick for selecting here
         //POST https://www.jidelna.cz/rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/zarizeni/177/objednavky
         //[{"idUzivatele":"2559062","idMenu":"12391","den":"2021-12-02","stav":"Prihlaseno","mnozstvi":1}]
