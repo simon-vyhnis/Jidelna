@@ -30,4 +30,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageButton
+        android:id="@+id/post"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:src="@drawable/send"
+        android:scaleType="fitCenter"
+        android:background="@drawable/post_btn_background"
+        android:layout_margin="20dp"
+        android:padding="20dp"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.simon.jdelna.R;
 import com.simon.jdelna.http.HttpDao;
+import com.simon.jdelna.http.model.DayPart;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFERENCES_FILE = "com.simon.jidelna.LOGIN_INFO";
@@ -45,6 +46,9 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        findViewById(R.id.post).setOnClickListener((v)->{
+            //TODO: post updates here
+        });
 
     }
 
@@ -82,4 +86,9 @@ public class MainActivity extends AppCompatActivity {
     public int getUserId(){
         return userId;
     }
+
+    public void addOrderChange(DayPart dayPart){
+
+    }
+
 }

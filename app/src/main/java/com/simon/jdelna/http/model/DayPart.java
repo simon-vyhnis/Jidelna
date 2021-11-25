@@ -12,6 +12,7 @@ public class DayPart {
     List<Food> foods;
     @SerializedName("objednavky")
     Map<String, Order> orders;
+    private Food selectedFood;
 
     public String getTitle() {
         return title;
@@ -23,5 +24,17 @@ public class DayPart {
 
     public Map<String, Order> getOrders() {
         return orders;
+    }
+
+    public void selectFood(Food food){
+        selectedFood = food;
+    }
+
+    public boolean isFoodSelected(Food food){
+        return food == this.selectedFood;
+    }
+
+    public Food getSelectedFood() {
+        return selectedFood;
     }
 }
