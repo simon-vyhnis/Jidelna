@@ -4,9 +4,11 @@ import com.google.gson.annotations.SerializedName;
 
 public class Order {
     @SerializedName("idMenu")
-    public int foodId;
+    private int foodId;
     @SerializedName("idUzivatele")
-    String userId;
+    private String userId;
+    @SerializedName("stav")
+    private String state;
 
     public int getFoodId() {
         return foodId;
@@ -14,5 +16,13 @@ public class Order {
 
     public String getUserId() {
         return userId;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public void setState(String state) {
+        this.state = state;
     }
 }

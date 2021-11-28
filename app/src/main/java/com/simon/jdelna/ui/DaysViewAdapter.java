@@ -42,7 +42,7 @@ public class DaysViewAdapter extends RecyclerView.Adapter<DaysViewAdapter.ViewHo
         DayWrap current = days.get(position);
         TextView date = holder.itemView.findViewById(R.id.date);
         date.setText(current.getFormattedDate());
-        DayPartsViewAdapter adapter = new DayPartsViewAdapter(current.getDay().getDayParts(), activity);
+        DayPartsViewAdapter adapter = new DayPartsViewAdapter(current, activity);
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.day_parts);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));

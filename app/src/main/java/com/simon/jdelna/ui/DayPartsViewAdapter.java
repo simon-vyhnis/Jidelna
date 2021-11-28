@@ -1,5 +1,6 @@
 package com.simon.jdelna.ui;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,12 +12,14 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.simon.jdelna.R;
 import com.simon.jdelna.http.model.DayPart;
+import com.simon.jdelna.http.model.DayWrap;
 
 import java.util.List;
 
 public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapter.ViewHolder>{
     List<DayPart> dayParts;
     private MainActivity activity;
+    private String date;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         ViewHolder(View view) {
@@ -24,8 +27,9 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
         }
     }
 
-    public DayPartsViewAdapter(List<DayPart> dayParts, MainActivity activity){
-        this.dayParts = dayParts;
+    public DayPartsViewAdapter(DayWrap dayWrap, MainActivity activity){
+        this.dayParts = dayWrap.getDay().getDayParts();
+        this.date = dayWrap.getDate();
         this.activity = activity;
     }
 
@@ -41,10 +45,14 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
         DayPart current = dayParts.get(position);
         TextView title = holder.itemView.findViewById(R.id.title);
         title.setText(current.getTitle());
-        FoodsViewAdapter adapter = new FoodsViewAdapter(current, activity);
+        FoodsViewAdapter adapter = new FoodsViewAdapter(current, activity, date);
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.foods);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
+
+        if(current.getOrdered() == null){
+            current.setOrdered(current.getOrders().get(Integer.toString(activity.getUserId())).getState().equals("Prihlaseno"));
+        }
     }
 
     @Override

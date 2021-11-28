@@ -10,18 +10,26 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import com.simon.jdelna.R;
 import com.simon.jdelna.http.HttpDao;
 import com.simon.jdelna.http.model.DayPart;
+import com.simon.jdelna.http.model.OrderRequest;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     public static final String PREFERENCES_FILE = "com.simon.jidelna.LOGIN_INFO";
-    RecyclerView days;
-    HttpDao http;
-    SharedPreferences preferences;
+    private RecyclerView days;
+    private HttpDao http;
+    private SharedPreferences preferences;
     private int userId;
+    private List<OrderRequest> requests;
+    private ImageButton btnPost;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +54,8 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        findViewById(R.id.post).setOnClickListener((v)->{
+        btnPost = findViewById(R.id.post);
+        btnPost.setOnClickListener((v)->{
             //TODO: post updates here
         });
 
@@ -87,8 +96,18 @@ public class MainActivity extends AppCompatActivity {
         return userId;
     }
 
-    public void addOrderChange(DayPart dayPart){
-
+    public void addOrderChange(DayPart dayPart, String date){
+        btnPost.setVisibility(View.VISIBLE);
+        if(requests == null){
+            requests = new ArrayList<>();
+        }else {
+            for (OrderRequest orderRequest:requests) {
+                if(orderRequest.getDayPart() == dayPart){
+                    requests.remove(orderRequest);
+                }
+            }
+        }
+        requests.add(new OrderRequest(Integer.toString(userId), date, dayPart));
     }
 
 }

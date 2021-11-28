@@ -13,6 +13,7 @@ public class DayPart {
     @SerializedName("objednavky")
     Map<String, Order> orders;
     private Food selectedFood;
+    private Boolean ordered = null;
 
     public String getTitle() {
         return title;
@@ -36,5 +37,13 @@ public class DayPart {
 
     public Food getSelectedFood() {
         return selectedFood;
+    }
+
+    public Boolean getOrdered() {
+        return ordered;
+    }
+
+    public void setOrdered(Boolean ordered) {
+        this.ordered = ordered;
     }
 }

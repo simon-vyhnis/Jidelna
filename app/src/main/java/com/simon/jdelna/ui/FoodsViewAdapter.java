@@ -25,6 +25,7 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
     List<Food> foods;
     MainActivity activity;
     DayPart dayPart;
+    String date;
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         ViewHolder(View view) {
@@ -39,10 +40,11 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         }
     }
 
-    public FoodsViewAdapter(DayPart dayPart, MainActivity activity){
+    public FoodsViewAdapter(DayPart dayPart, MainActivity activity, String date){
         this.foods = dayPart.getFoods();
         this.activity = activity;
         this.dayPart = dayPart;
+        this.date = date;
     }
 
     @NonNull
@@ -60,26 +62,38 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         TextView content = holder.itemView.findViewById(R.id.content);
         content.setText(current.getContent());
         CheckBox checkBox = holder.itemView.findViewById(R.id.select);
+        checkBox.setOnCheckedChangeListener(null);
 
-        if(!dayPart.isFoodSelected(current)){
-            checkBox.setChecked(false);
-        }
+        if(!dayPart.getOrders().get(Integer.toString(activity.getUserId())).getState().equals("Prihlaseno")){
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffc4cf"));
+        }else {
+            if (!dayPart.isFoodSelected(current)) {
+                checkBox.setChecked(false);
+            }
 
-        if(dayPart.getOrders().get(activity.getUserId()+"").foodId == foods.get(position).getId()){
-            holder.itemView.setBackgroundColor(Color.parseColor("#b8ffc8"));
-            if(dayPart.getSelectedFood() == null){
-                dayPart.selectFood(current);
-                checkBox.setChecked(true);
+            //coloring selected food
+            if (dayPart.getOrders().get(Integer.toString(activity.getUserId())).getFoodId() == current.getId()) {
+                holder.itemView.setBackgroundColor(Color.parseColor("#b8ffc8"));
+                if (dayPart.getSelectedFood() == null) {
+                    dayPart.selectFood(current);
+                    checkBox.setChecked(true);
+                }
             }
         }
 
         checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 dayPart.selectFood(current);
-                notifyDataSetChanged();
             }else{
-                //TODO: Check out food here
+                dayPart.setOrdered(false);
+                for(Food food : dayPart.getFoods()){
+                    if (dayPart.getOrders().get(Integer.toString(activity.getUserId())).getFoodId() == food.getId()) {
+                        dayPart.selectFood(food);
+                    }
+                }
             }
+            activity.addOrderChange(dayPart, date);
+            notifyDataSetChanged();
         });
         //POST https://www.jidelna.cz/rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/zarizeni/177/objednavky
         //[{"idUzivatele":"2559062","idMenu":"12391","den":"2021-12-02","stav":"Prihlaseno","mnozstvi":1}]
