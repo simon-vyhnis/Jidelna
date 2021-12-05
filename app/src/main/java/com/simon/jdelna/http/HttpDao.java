@@ -1,5 +1,6 @@
 package com.simon.jdelna.http;
 
+import android.os.Build;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 
@@ -17,6 +18,8 @@ import java.io.IOException;
 import java.lang.reflect.Type;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -59,19 +62,32 @@ public class HttpDao {
     }
 
     private final MutableLiveData<List<DayWrap>> menus = new MutableLiveData<>();
-    public LiveData<List<DayWrap>> getMenus(){
+    public LiveData<List<DayWrap>> getMenus(String userId){
         JidelnaAPI api = retrofit.create(JidelnaAPI.class);
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-        Call<List<DayWrap>> call = api.getDayWraps(eatery,
-                dateFormat.format(System.currentTimeMillis()),
-                dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000),
-                cookie);
+        String dateFrom;
+        String dateTo;
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+            LocalDate date = LocalDate.now();
+            dateFrom = date.toString();
+            dateTo = date.plusYears(1).toString();
+        }else{
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            dateFrom = dateFormat.format(System.currentTimeMillis());
+            dateTo = dateFormat.format(System.currentTimeMillis()+ 365L*24*60*60*1000);
+        }
+        Call<List<DayWrap>> call = api.getDayWraps(eatery, dateFrom, dateTo, cookie);
         System.out.println(call.request().url().toString());
         call.enqueue(new Callback<List<DayWrap>>() {
             @Override
             public void onResponse(Call<List<DayWrap>> call, Response<List<DayWrap>> response) {
                 if(response.isSuccessful()){
-                    menus.postValue(response.body());
+                    Thread t = new Thread(()->{
+                       for(DayWrap wrap : response.body()){
+                           wrap.formatData(userId);
+                       }
+                       menus.postValue(response.body());
+                    });
+                    t.start();
                 }else{
                     try {
                         System.out.println(response.errorBody().string());
@@ -88,6 +104,7 @@ public class HttpDao {
         });
         return menus;
     }
+
 
     private final MutableLiveData<LoginResponse> loginResponse = new MutableLiveData<>();
     public LiveData<LoginResponse> login(String email, String password){

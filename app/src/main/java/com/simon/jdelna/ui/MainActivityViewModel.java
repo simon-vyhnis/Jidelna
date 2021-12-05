@@ -18,6 +18,9 @@ import com.simon.jdelna.http.model.OrderRequest;
 import java.util.ArrayList;
 import java.util.List;
 
+import retrofit2.Response;
+
+
 public class MainActivityViewModel extends AndroidViewModel {
     private int userId;
     private List<OrderRequest> requests;
@@ -35,7 +38,7 @@ public class MainActivityViewModel extends AndroidViewModel {
         return http.login(preferences.getString("email", "err"), preferences.getString("password", "err"));
     }
     public LiveData<List<DayWrap>> getMenus(){
-        return http.getMenus();
+        return http.getMenus(String.valueOf(userId));
     }
     public int getUserId(){
         return userId;

@@ -16,7 +16,7 @@ public class OrderRequest {
     private DayPart dayPart;
 
     public OrderRequest(String userId, String date, DayPart dayPart){
-        this(userId, Integer.toString(dayPart.getSelectedFood().getId()), date, dayPart.getOrdered(), dayPart);
+        this(userId, Integer.toString(dayPart.getSelectedFood().getId()), date, dayPart.isSelected(), dayPart);
     }
 
     private OrderRequest(String userId, String menuId, String date, boolean ordered, DayPart dayPart) {

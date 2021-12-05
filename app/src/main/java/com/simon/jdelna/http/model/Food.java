@@ -11,6 +11,7 @@ public class Food {
     String name;
     int id;
     private String content;
+    private boolean isOrdered = false;
 
     public List<Course> getCourses() {
         return courses;
@@ -33,5 +34,13 @@ public class Food {
 
     public int getId() {
         return id;
+    }
+
+    public boolean isOrdered() {
+        return isOrdered;
+    }
+
+    public void setOrdered(boolean ordered) {
+        isOrdered = ordered;
     }
 }

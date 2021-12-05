@@ -28,4 +28,18 @@ public class DayWrap {
         }
         return date;
     }
+    
+    public void formatData(String userId){
+        for (DayPart dayPart : day.getDayParts()){
+            dayPart.setOrdered(dayPart.getOrders().get(userId).getState().equals("Prihlaseno"));
+            dayPart.setSelected(dayPart.getOrders().get(userId).getState().equals("Prihlaseno"));
+
+            for(Food food : dayPart.getFoods()){
+                if(dayPart.getOrders().get(userId).getFoodId() == food.getId()) {
+                    dayPart.selectFood(food);
+                    food.setOrdered(true);
+                }
+            }
+        }
+    }
 }

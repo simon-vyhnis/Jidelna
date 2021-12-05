@@ -64,30 +64,25 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         CheckBox checkBox = holder.itemView.findViewById(R.id.select);
         checkBox.setOnCheckedChangeListener(null);
 
-        if(!dayPart.getOrders().get(Integer.toString(activity.getUserId())).getState().equals("Prihlaseno")){
+        if(!dayPart.isOrdered()){
             holder.itemView.setBackgroundColor(Color.parseColor("#ffc4cf"));
         }else {
-            if (!dayPart.isFoodSelected(current)) {
-                checkBox.setChecked(false);
-            }
-
-            //coloring selected food
-            if (dayPart.getOrders().get(Integer.toString(activity.getUserId())).getFoodId() == current.getId()) {
+            if (current.isOrdered()) {
                 holder.itemView.setBackgroundColor(Color.parseColor("#b8ffc8"));
-                if (dayPart.getSelectedFood() == null) {
-                    dayPart.selectFood(current);
-                    checkBox.setChecked(true);
-                }
             }
+        }
+
+        if(dayPart.isSelected()){
+            checkBox.setChecked(dayPart.isFoodSelected(current));
         }
 
         checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 dayPart.selectFood(current);
             }else{
-                dayPart.setOrdered(false);
+                dayPart.setSelected(false);
                 for(Food food : dayPart.getFoods()){
-                    if (dayPart.getOrders().get(Integer.toString(activity.getUserId())).getFoodId() == food.getId()) {
+                    if (food.isOrdered()) {
                         dayPart.selectFood(food);
                     }
                 }

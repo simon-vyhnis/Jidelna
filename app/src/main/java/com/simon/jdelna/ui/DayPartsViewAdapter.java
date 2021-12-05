@@ -49,10 +49,6 @@ public class DayPartsViewAdapter extends RecyclerView.Adapter<DayPartsViewAdapte
         RecyclerView recyclerView = holder.itemView.findViewById(R.id.foods);
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(activity));
-
-        if(current.getOrdered() == null){
-            current.setOrdered(current.getOrders().get(Integer.toString(activity.getUserId())).getState().equals("Prihlaseno"));
-        }
     }
 
     @Override

@@ -13,7 +13,8 @@ public class DayPart {
     @SerializedName("objednavky")
     Map<String, Order> orders;
     private Food selectedFood;
-    private Boolean ordered = null;
+    private boolean ordered;
+    private boolean selected;
 
     public String getTitle() {
         return title;
@@ -39,11 +40,19 @@ public class DayPart {
         return selectedFood;
     }
 
-    public Boolean getOrdered() {
+    public boolean isOrdered() {
         return ordered;
     }
 
     public void setOrdered(Boolean ordered) {
         this.ordered = ordered;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
     }
 }
