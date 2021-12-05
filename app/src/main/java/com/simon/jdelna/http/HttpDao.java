@@ -39,12 +39,7 @@ public class HttpDao {
     private String cookie;
     private String eatery = "";
 
-    private HttpDao(){/*
-        Type type = new TypeToken<HashMap<String, Order>>(){}.getType();
-        Gson gson =
-                new GsonBuilder()
-                        .registerTypeAdapter(Content.class, new MyDeserializer<Content>())
-                        .create();*/
+    private HttpDao(){
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient client = new OkHttpClient.Builder()

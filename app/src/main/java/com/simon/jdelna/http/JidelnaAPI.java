@@ -1,5 +1,6 @@
 package com.simon.jdelna.http;
 
+import com.simon.jdelna.http.model.ChangesResponse;
 import com.simon.jdelna.http.model.DayWrap;
 
 import java.util.List;
@@ -25,5 +26,8 @@ public interface JidelnaAPI {
 
     @GET("/rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/uzivatel/{userId}/info")
     Call<User> getUserInfo(@Path("userId") int userId, @Header("Cookie") String cookie);
+
+    @POST("rest/u/c58zbtfnjz72h6t5nzfva9uzvbag8m/zarizeni/{eatery}/objednavky")
+    Call<ChangesResponse> postChanges(@Path("eatery") String eatery, @Header("Cookie") String cookie);
 
 }

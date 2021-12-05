@@ -1,6 +1,8 @@
 package com.simon.jdelna.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,28 +27,23 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     public static final String PREFERENCES_FILE = "com.simon.jidelna.LOGIN_INFO";
     private RecyclerView days;
-    private HttpDao http;
-    private SharedPreferences preferences;
-    private int userId;
-    private List<OrderRequest> requests;
     private ImageButton btnPost;
+    private MainActivityViewModel viewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        viewModel = new ViewModelProvider(this).get(MainActivityViewModel.class);
 
-        preferences = getSharedPreferences(PREFERENCES_FILE,MODE_PRIVATE);
-        if(!preferences.contains("email")){
+        if(viewModel.isLoggedIn()){
             Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
         }
-        userId = preferences.getInt("userid",0);
 
         days = findViewById(R.id.food_list);
-        http = HttpDao.getInstance();
 
-        http.login(preferences.getString("email", "err"), preferences.getString("password", "err")).observe(this, response->{
+        viewModel.login().observe(this, response->{
             if(response.isSuccessful()){
                 loadMenu();
             }else{
@@ -62,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void loadMenu(){
-        http.getMenus().observe(this, dayWraps -> {
+        viewModel.getMenus().observe(this, dayWraps -> {
             findViewById(R.id.loading).setVisibility(View.GONE);
             DaysViewAdapter adapter = new DaysViewAdapter(dayWraps, this);
             days.setAdapter(adapter);
@@ -92,22 +89,13 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {}
 
-    public int getUserId(){
-        return userId;
+    public void addOrderChange(DayPart dayPart, String date) {
+        btnPost.setVisibility(View.VISIBLE);
+        viewModel.addOrderChange(dayPart, date);
     }
 
-    public void addOrderChange(DayPart dayPart, String date){
-        btnPost.setVisibility(View.VISIBLE);
-        if(requests == null){
-            requests = new ArrayList<>();
-        }else {
-            for (OrderRequest orderRequest:requests) {
-                if(orderRequest.getDayPart() == dayPart){
-                    requests.remove(orderRequest);
-                }
-            }
-        }
-        requests.add(new OrderRequest(Integer.toString(userId), date, dayPart));
+    public int getUserId(){
+        return viewModel.getUserId();
     }
 
 }
