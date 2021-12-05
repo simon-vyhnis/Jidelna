@@ -21,6 +21,7 @@ import com.simon.jdelna.http.HttpDao;
 import com.simon.jdelna.http.model.DayPart;
 import com.simon.jdelna.http.model.OrderRequest;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -53,7 +54,9 @@ public class MainActivity extends AppCompatActivity {
 
         btnPost = findViewById(R.id.post);
         btnPost.setOnClickListener((v)->{
-            //TODO: post updates here
+            Intent intent = new Intent(this, PostChangesActivity.class);
+            intent.putExtra("requests", (Serializable) viewModel.getRequests());
+            startActivity(intent);
         });
 
     }

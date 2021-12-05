@@ -2,7 +2,9 @@ package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class OrderRequest {
+import java.io.Serializable;
+
+public class OrderRequest implements Serializable {
     @SerializedName("idUzivatele")
     private String userId;
     @SerializedName("idMenu")
@@ -35,5 +37,9 @@ public class OrderRequest {
 
     public DayPart getDayPart() {
         return dayPart;
+    }
+
+    public String getDate() {
+        return date;
     }
 }

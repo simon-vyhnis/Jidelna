@@ -25,6 +25,11 @@
             android:exported="true">
         </activity>
 
+        <activity
+            android:name=".ui.PostChangesActivity"
+            android:exported="true">
+        </activity>
+
     <activity
             android:name=".ui.ChooseUserActivity"
             android:exported="true">

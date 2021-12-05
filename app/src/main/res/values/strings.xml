@@ -7,4 +7,5 @@
     <string name="loginButton">Přihlásit</string>
     <string name="switch_user">Změnit uživatele</string>
     <string name="logout">Odhlásit se</string>
+    <string name="post">Odeslat</string>
 </resources>

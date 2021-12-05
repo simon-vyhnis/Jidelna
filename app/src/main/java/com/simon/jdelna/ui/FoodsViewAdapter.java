@@ -79,6 +79,7 @@ public class FoodsViewAdapter extends RecyclerView.Adapter<FoodsViewAdapter.View
         checkBox.setOnCheckedChangeListener((compoundButton, b) -> {
             if(b) {
                 dayPart.selectFood(current);
+                dayPart.setSelected(true);
             }else{
                 dayPart.setSelected(false);
                 for(Food food : dayPart.getFoods()){

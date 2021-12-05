@@ -2,7 +2,9 @@ package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
 
-public class Order {
+import java.io.Serializable;
+
+public class Order implements Serializable {
     @SerializedName("idMenu")
     private int foodId;
     @SerializedName("idUzivatele")

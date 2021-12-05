@@ -3,11 +3,9 @@ package com.simon.jdelna.ui;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.view.View;
 
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.ViewModel;
 
 import com.simon.jdelna.http.HttpDao;
 import com.simon.jdelna.http.LoginResponse;
@@ -16,14 +14,13 @@ import com.simon.jdelna.http.model.DayWrap;
 import com.simon.jdelna.http.model.OrderRequest;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
-
-import retrofit2.Response;
 
 
 public class MainActivityViewModel extends AndroidViewModel {
     private int userId;
-    private List<OrderRequest> requests;
+    private ArrayList<OrderRequest> requests;
     private final HttpDao http;
     SharedPreferences preferences;
 
@@ -51,12 +48,17 @@ public class MainActivityViewModel extends AndroidViewModel {
         if(requests == null){
             requests = new ArrayList<>();
         }else {
-            for (OrderRequest orderRequest:requests) {
-                if(orderRequest.getDayPart() == dayPart){
-                    requests.remove(orderRequest);
+            Iterator<OrderRequest> iterator = requests.iterator();
+            while(iterator.hasNext()){
+                if(iterator.next().getDayPart() == dayPart){
+                    iterator.remove();
                 }
             }
         }
         requests.add(new OrderRequest(Integer.toString(userId), date, dayPart));
+    }
+
+    public ArrayList<OrderRequest> getRequests(){
+        return requests;
     }
 }

@@ -2,10 +2,11 @@ package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-public class DayPart {
+public class DayPart implements Serializable {
     @SerializedName("nazev")
     String title;
     @SerializedName("menu")

@@ -2,9 +2,10 @@ package com.simon.jdelna.http.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class Food {
+public class Food implements Serializable {
     @SerializedName("chody")
     List<Course> courses;
     @SerializedName("nazev")
