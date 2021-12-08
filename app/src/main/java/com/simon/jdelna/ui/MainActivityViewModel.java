@@ -19,7 +19,7 @@ import java.util.List;
 
 
 public class MainActivityViewModel extends AndroidViewModel {
-    private int userId;
+    private final int userId;
     private ArrayList<OrderRequest> requests;
     private final HttpDao http;
     SharedPreferences preferences;

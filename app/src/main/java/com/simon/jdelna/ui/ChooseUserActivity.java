@@ -28,7 +28,6 @@ public class ChooseUserActivity extends AppCompatActivity {
         preferences = getSharedPreferences(MainActivity.PREFERENCES_FILE, MODE_PRIVATE);
         http.login(preferences.getString("email", "err"), preferences.getString("password", "err")).observe(this, response->{
             if(response.isSuccessful()){
-                System.out.println("Response was successful");
                 RecyclerView recyclerView = findViewById(R.id.user_list);
                 UserListViewAdapter adapter = new UserListViewAdapter(response.getUsers(), this);
                 recyclerView.setAdapter(adapter);
